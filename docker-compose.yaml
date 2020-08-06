@@ -1,0 +1,45 @@
+version: "3.3"
+
+services:
+  oap:
+    image: apache/skywalking-oap-server
+    ports:
+      - 11800:11800
+      - 12800:12800
+    environment:
+      TZ: Asia/Jakarta
+
+  service1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      SERVICE_NAME: service1
+      NEXT_SERVICE_HOST_PORT: service2:8000
+      INSTANCE_NAME: service1-instance-1
+      PORT: 8000
+      TZ: Asia/Jakarta
+      SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:11800
+    ports:
+      - 8000:8000
+
+  service2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      SERVICE_NAME: service2
+      INSTANCE_NAME: service2-instance-1
+      PORT: 8000
+      TZ: Asia/Jakarta
+      SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:11800
+
+  ui:
+    image: apache/skywalking-ui
+    depends_on:
+      - oap
+    ports:
+      - 8080:8080
+    environment:
+      SW_OAP_ADDRESS: oap:12800
+      TZ: Asia/Jakarta
