@@ -1,8 +1,4 @@
-const apm = require("skywalking-apache").default;
-apm.start({
-  serviceName: process.env.SERVICE_NAME,
-  instanceName: process.env.INSTANCE_NAME,
-});
+require("skywalking-apache").default.start();
 
 const http = require("http");
 
@@ -10,14 +6,14 @@ const server = new http.Server(async (_, res) => {
   await delay();
   if (process.env.NEXT_SERVICE_HOST_PORT) {
     console.log(
-      `[${process.env.SERVICE_NAME}] calling ${process.env.NEXT_SERVICE_HOST_PORT}`
+      `[${process.env.SW_AGENT_NAME}] calling ${process.env.NEXT_SERVICE_HOST_PORT}`
     );
     console.log(
-      `[${process.env.SERVICE_NAME}]`,
+      `[${process.env.SW_AGENT_NAME}]`,
       await get(`http://${process.env.NEXT_SERVICE_HOST_PORT}/call`)
     );
   }
-  res.end(JSON.stringify({ name: process.env.SERVICE_NAME }));
+  res.end(JSON.stringify({ name: process.env.SW_AGENT_NAME }));
 });
 
 function delay() {

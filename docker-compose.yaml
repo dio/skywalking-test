@@ -14,9 +14,9 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      SERVICE_NAME: service1
+      SW_AGENT_NAME: service1
+      SW_AGENT_INSTANCE: service1-instance-1
       NEXT_SERVICE_HOST_PORT: service2:8000
-      INSTANCE_NAME: service1-instance-1
       PORT: 8000
       TZ: Asia/Jakarta
       SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:11800
@@ -28,8 +28,8 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      SERVICE_NAME: service2
-      INSTANCE_NAME: service2-instance-1
+      SW_AGENT_NAME: service2
+      SW_AGENT_INSTANCE: service2-instance-1
       PORT: 8000
       TZ: Asia/Jakarta
       SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:11800
